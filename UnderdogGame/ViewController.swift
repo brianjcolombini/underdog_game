@@ -15,20 +15,32 @@ class ViewController: UIViewController {
     @IBOutlet var cardButtons: [UIButton]!
     
     @IBAction func touchCard(_ sender: UIButton) {
-        let cardId = cardButtons.index(of: sender)!
-        flipCard(withNumber: cardId, on: sender)
+        if let cardId = cardButtons.index(of: sender) {
+            game.chooseCard(at: cardId)
+            updateViewFromModel()
+        } else {
+            print("OOPS: chosen card not in cardButtons")
+        }
     }
     
-    func flipCard(withNumber number: Int, on button: UIButton) {
-        if button.currentTitle == String(number) {
-            button.setTitle("", for: UIControlState.normal)
-            button.backgroundColor = #colorLiteral(red: 0.1871772701, green: 0.3310747348, blue: 1, alpha: 1)
-            button.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
-        } else {
-            button.setTitle(String(number), for: UIControlState.normal)
-            button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
-            button.layer.borderColor = #colorLiteral(red: 0.1871772701, green: 0.3310747348, blue: 1, alpha: 1)
+    func updateViewFromModel() {
+        for index in cardButtons.indices {
+            let button = cardButtons[index]
+            let card = game.cards[index]
+            if card.isFlipped {
+                button.setTitle(String(card.value), for: UIControlState.normal)
+                button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
+                button.layer.borderColor = card.team.color
+            } else {
+                button.setTitle("", for: UIControlState.normal)
+                button.backgroundColor = UIColor(cgColor: card.team.color)
+                button.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
+            }
         }
+    }
+    
+    override func viewDidLoad() {
+        updateViewFromModel()
     }
     
 }

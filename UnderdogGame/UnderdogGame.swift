@@ -21,7 +21,9 @@ class UnderdogGame {
     var finalRoundWinner : String? = nil
     
     func chooseCard(at index: Int) {
-        
+        if !cards[index].isFlipped {
+            cards[index].isFlipped = true
+        }
     }
     
     // initialize Underdog game

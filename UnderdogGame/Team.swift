@@ -11,10 +11,10 @@ import UIKit
 
 struct Team {
     
-    var name = "TeamName"
-    var color = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+    var name : String
+    var color : CGColor
     
-    init(name: String, color: UIColor) {
+    init(name: String, color: CGColor) {
         self.name = name
         self.color = color
     }
