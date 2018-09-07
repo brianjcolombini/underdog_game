@@ -10,16 +10,22 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+    
+    @IBAction func touchCard(_ sender: UIButton) {
+        flipCard(withNumber: 1, on: sender)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    func flipCard(withNumber number: Int, on button: UIButton) {
+        if button.currentTitle == String(number) {
+            button.setTitle("", for: UIControlState.normal)
+            button.backgroundColor = #colorLiteral(red: 0.1871772701, green: 0.3310747348, blue: 1, alpha: 1)
+            button.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
+        } else {
+            button.setTitle(String(number), for: UIControlState.normal)
+            button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
+            button.layer.borderColor = #colorLiteral(red: 0.1871772701, green: 0.3310747348, blue: 1, alpha: 1)
+        }
     }
-
-
+    
 }
 
