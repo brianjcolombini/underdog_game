@@ -10,9 +10,13 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    var game = UnderdogGame()
+    
+    @IBOutlet var cardButtons: [UIButton]!
     
     @IBAction func touchCard(_ sender: UIButton) {
-        flipCard(withNumber: 1, on: sender)
+        let cardId = cardButtons.index(of: sender)!
+        flipCard(withNumber: cardId, on: sender)
     }
     
     func flipCard(withNumber number: Int, on button: UIButton) {

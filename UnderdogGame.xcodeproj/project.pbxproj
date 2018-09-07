@@ -12,6 +12,9 @@
 		D3145A002142E999003B7698 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D31459FE2142E999003B7698 /* Main.storyboard */; };
 		D3145A022142E99B003B7698 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3145A012142E99B003B7698 /* Assets.xcassets */; };
 		D3145A052142E99B003B7698 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3145A032142E99B003B7698 /* LaunchScreen.storyboard */; };
+		D3145A0D2142FA95003B7698 /* UnderdogGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3145A0C2142FA95003B7698 /* UnderdogGame.swift */; };
+		D3145A0F2142FCDA003B7698 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3145A0E2142FCDA003B7698 /* Card.swift */; };
+		D3145A112142FEA2003B7698 /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3145A102142FEA2003B7698 /* Team.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +25,9 @@
 		D3145A012142E99B003B7698 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D3145A042142E99B003B7698 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D3145A062142E99B003B7698 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D3145A0C2142FA95003B7698 /* UnderdogGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderdogGame.swift; sourceTree = "<group>"; };
+		D3145A0E2142FCDA003B7698 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		D3145A102142FEA2003B7698 /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +62,9 @@
 			children = (
 				D31459FA2142E999003B7698 /* AppDelegate.swift */,
 				D31459FC2142E999003B7698 /* ViewController.swift */,
+				D3145A0C2142FA95003B7698 /* UnderdogGame.swift */,
+				D3145A102142FEA2003B7698 /* Team.swift */,
+				D3145A0E2142FCDA003B7698 /* Card.swift */,
 				D31459FE2142E999003B7698 /* Main.storyboard */,
 				D3145A012142E99B003B7698 /* Assets.xcassets */,
 				D3145A032142E99B003B7698 /* LaunchScreen.storyboard */,
@@ -137,6 +146,9 @@
 			files = (
 				D31459FD2142E999003B7698 /* ViewController.swift in Sources */,
 				D31459FB2142E999003B7698 /* AppDelegate.swift in Sources */,
+				D3145A0D2142FA95003B7698 /* UnderdogGame.swift in Sources */,
+				D3145A112142FEA2003B7698 /* Team.swift in Sources */,
+				D3145A0F2142FCDA003B7698 /* Card.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
