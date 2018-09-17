@@ -20,3 +20,10 @@ struct Team {
     }
     
 }
+
+// TO DO: overload operator?? to use in UnderdogGame
+//extension Team: Equatable {
+//    static func ==(lhs: Team, rhs: Team) -> Bool {
+//        return lhs.name == rhs.name
+//    }
+//}
