@@ -9,10 +9,11 @@
 import Foundation
 import UIKit
 
-struct Team {
+class Team {
     
     var name : String
     var color : CGColor
+    var firstRoundScore = 0
     
     init(name: String, color: CGColor) {
         self.name = name

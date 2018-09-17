@@ -18,7 +18,14 @@ class UnderdogGame {
     var cards : Array<Card> = []
     var turnIndicator: Team? = nil
     var cardsCurrentlyInPlay : Array<Card> = []
-    var roundWinners : Array<Team> = []
+    var roundWinners : Array<Team> = [] {
+        didSet {
+            let thisRoundWinner = roundWinners.last
+            if thisRoundWinner != nil {
+                thisRoundWinner!.firstRoundScore += 1
+            }
+        }
+    }
     var gameWinner : Team? = nil
     
     func chooseCard(at index: Int) {

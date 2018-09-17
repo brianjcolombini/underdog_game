@@ -14,6 +14,9 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var turnIndicatorView: UIView!
     
+    @IBOutlet weak var leftTeamScoreLabel: UILabel!
+    @IBOutlet weak var rightTeamScoreLabel: UILabel!
+    
     @IBOutlet var cardButtons: [UIButton]!
     
     @IBAction func touchCard(_ sender: UIButton) {
@@ -29,6 +32,8 @@ class ViewController: UIViewController {
         if game.turnIndicator != nil {
             turnIndicatorView.backgroundColor = UIColor(cgColor: game.turnIndicator!.color)
         }
+        leftTeamScoreLabel.text = String(game.teams[0].firstRoundScore)
+        rightTeamScoreLabel.text = String(game.teams[1].firstRoundScore)
         for index in cardButtons.indices {
             let button = cardButtons[index]
             let card = game.cards[index]
@@ -45,6 +50,8 @@ class ViewController: UIViewController {
     }
     
     override func viewDidLoad() {
+        leftTeamScoreLabel.textColor = UIColor(cgColor: game.teams[0].color)
+        rightTeamScoreLabel.textColor = UIColor(cgColor: game.teams[1].color)
         updateViewFromModel()
     }
     
