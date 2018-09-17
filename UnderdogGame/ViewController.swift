@@ -12,6 +12,8 @@ class ViewController: UIViewController {
 
     var game = UnderdogGame()
     
+    @IBOutlet weak var turnIndicatorView: UIView!
+    
     @IBOutlet var cardButtons: [UIButton]!
     
     @IBAction func touchCard(_ sender: UIButton) {
@@ -24,6 +26,9 @@ class ViewController: UIViewController {
     }
     
     func updateViewFromModel() {
+        if game.turnIndicator != nil {
+            turnIndicatorView.backgroundColor = UIColor(cgColor: game.turnIndicator!.color)
+        }
         for index in cardButtons.indices {
             let button = cardButtons[index]
             let card = game.cards[index]
