@@ -11,8 +11,8 @@ import Foundation
 struct Card {
     
     var id : Int
-    var round : Int
-    var team : Team
+    var stage : Int
+    var team : Team?
     var value = 0
     var isFlipped = false
     
@@ -23,11 +23,11 @@ struct Card {
         return idIncrementer
     }
     
-    init(value: Int, team: Team, round: Int) {
+    init(value: Int, team: Team?, stage: Int) {
         self.id = Card.getId()
         self.value = value
         self.team = team
-        self.round = round
+        self.stage = stage
     }
     
 }
