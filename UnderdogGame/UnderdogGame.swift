@@ -20,6 +20,7 @@ class UnderdogGame {
     var stage = 1
     var turnIndicator: Team? = nil
     var cardsCurrentlyInPlay : Array<Card> = []
+    var numCardsFlippedThisRound = 0
     var roundWinners : Array<Team> = [] {
         didSet {
             let thisRoundWinner = roundWinners.last
@@ -31,35 +32,45 @@ class UnderdogGame {
     var gameWinner : Team? = nil
     
     func chooseCard(at index: Int) {
+        numCardsFlippedThisRound += 1
         if turnIndicator!.name == cards[index].team!.name { // TO DO: use overloaded op
             if !cards[index].isFlipped {
                 cards[index].isFlipped = true
-                if cardsCurrentlyInPlay.count == 0 {
-                    cardsCurrentlyInPlay += [cards[index]]
-                } else if cardsCurrentlyInPlay.count == 1 {
-                    cardsCurrentlyInPlay += [cards[index]]
-                    evaluateRound()
-                } else {
-                    cardsCurrentlyInPlay = [cards[index]]
+                cardsCurrentlyInPlay += [cards[index]]
+                // in first stage of game
+                if stage == 1 {
+                    // if first card in round
+                    if cardsCurrentlyInPlay.count == 1 {
+                        // other team's turn
+                        alternateTurnIndicator()
+                    // if second card in round
+                    } else if cardsCurrentlyInPlay.count == 2 {
+                        // evaluate round
+                        evaluateFirstStageRound()
+                    // if more than two cards currently in play, reset to new round with just this card
+                    } else {
+                        cardsCurrentlyInPlay = [cards[index]]
+                        // other team's turn
+                        alternateTurnIndicator()
+                    }
                 }
-                // other team's turn
-                turnIndicator = turnIndicator!.name == teams[1].name ? teams[0] : teams[1]
             }
         }
         // if all cards flipped, evaluate stage of game
-        var allFlipped = true
         let numEligibleCards = stage == 1 ? NUM_CARDS_PER_TEAM_FIRST_STAGE * teams.count : NUM_CARDS_UNDERDOG_STAGE
-        for index in 0..<numEligibleCards {
-            if !cards[index].isFlipped {
-                allFlipped = false
-            }
-        }
-        if allFlipped {
+        if numCardsFlippedThisRound == numEligibleCards {
             evaluateGameStage()
+        // in stage 2, if only one card left unflipped, underdog's turn (alternate turn indicator)
+        } else if stage == 2, (numEligibleCards - numCardsFlippedThisRound) == 1 {
+            alternateTurnIndicator()
         }
     }
     
-    func evaluateRound() {
+    func alternateTurnIndicator() {
+        turnIndicator = turnIndicator!.name == teams[1].name ? teams[0] : teams[1]
+    }
+    
+    func evaluateFirstStageRound() {
         assert(cardsCurrentlyInPlay.count == 2, "count of cardsCurrentlyInPlay is \(cardsCurrentlyInPlay.count), expected 2")
         if cardsCurrentlyInPlay[0].value > cardsCurrentlyInPlay[1].value {
             roundWinners += [cardsCurrentlyInPlay[0].team!]
@@ -82,6 +93,9 @@ class UnderdogGame {
             // else, game moves on to stage 2
             } else {
                 stage = 2
+                numCardsFlippedThisRound = 0
+                // turn indicator to first stage winner
+                turnIndicator = teams[0].firstStageScore > teams[1].firstStageScore ? teams[0] : teams[1]
                 createUnderdogStage()
             }
         }
