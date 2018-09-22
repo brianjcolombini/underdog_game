@@ -11,7 +11,6 @@ import UIKit
 
 class UnderdogGame {
     
-    let MAX_VALUE = 100
     let NUM_CARDS_PER_TEAM_FIRST_STAGE = 3
     let NUM_CARDS_UNDERDOG_STAGE = 3
     
@@ -87,13 +86,11 @@ class UnderdogGame {
     
     func evaluateFirstStageRound() {
         assert(cardsCurrentlyInPlay.count == 2, "count of cardsCurrentlyInPlay is \(cardsCurrentlyInPlay.count), expected 2")
+        assert(cardsCurrentlyInPlay[0].value != cardsCurrentlyInPlay[1].value, "multiple cards have same value")
         if cardsCurrentlyInPlay[0].value > cardsCurrentlyInPlay[1].value {
             roundWinners += [cardsCurrentlyInPlay[0].team!]
-        } else if cardsCurrentlyInPlay[0].value < cardsCurrentlyInPlay[1].value {
+        } else {
             roundWinners += [cardsCurrentlyInPlay[1].team!]
-        }
-        else {
-            print("tie")
         }
     }
     
@@ -144,13 +141,13 @@ class UnderdogGame {
             // for each first stage card
             for _ in 0..<NUM_CARDS_PER_TEAM_FIRST_STAGE {
                 // create card for this team and stage, with random card value
-                let firstStageCard = Card(value: MAX_VALUE.arc4random, team: team, stage: 1)
+                let firstStageCard = Card(team: team, stage: 1)
                 cards += [firstStageCard]
             }
         }
         for _ in 0..<NUM_CARDS_UNDERDOG_STAGE {
             // create teamless card for underdog stage
-            let teamlessUnderdogStageCard = Card(value: MAX_VALUE.arc4random, team: nil, stage: 2)
+            let teamlessUnderdogStageCard = Card(team: nil, stage: 2)
             cards += [teamlessUnderdogStageCard]
         }
         // set team to have first turn

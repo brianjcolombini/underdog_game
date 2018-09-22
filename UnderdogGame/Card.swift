@@ -16,16 +16,27 @@ struct Card {
     var value = 0
     var isFlipped = false
     
+    static let MAX_VALUE = 100
     static var idIncrementer = 0
+    static var usedValues : Set<Int> = []
     
     static func getId() -> Int {
         idIncrementer += 1
         return idIncrementer
     }
     
-    init(value: Int, team: Team?, stage: Int) {
+    static func getUniqueValue() -> Int {
+        var newValue : Int
+        repeat {
+            newValue = MAX_VALUE.arc4random
+        } while usedValues.contains(newValue)
+        usedValues.insert(newValue)
+        return newValue
+    }
+    
+    init(team: Team?, stage: Int) {
         self.id = Card.getId()
-        self.value = value
+        self.value = Card.getUniqueValue()
         self.team = team
         self.stage = stage
     }
