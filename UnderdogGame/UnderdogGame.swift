@@ -18,6 +18,15 @@ class UnderdogGame {
     var teams : Array<Team> = []
     var cards : Array<Card> = []
     var stage = 1
+    var numEligibleCardsThisRound: Int {
+        get {
+            if stage == 1 {
+                return NUM_CARDS_PER_TEAM_FIRST_STAGE * teams.count
+            } else {
+                return NUM_CARDS_UNDERDOG_STAGE
+            }
+        }
+    }
     var turnIndicator: Team? = nil
     var cardsCurrentlyInPlay : Array<Card> = []
     var numCardsFlippedThisRound = 0
@@ -29,7 +38,14 @@ class UnderdogGame {
             }
         }
     }
-    var gameWinner : Team? = nil
+    var firstStageWinner : Team? = nil
+    var gameWinner : Team? = nil {
+        didSet {
+            // TO DO: game over animation
+            print("game over")
+            print("\(gameWinner?.name ?? "ERROR") wins!")
+        }
+    }
     
     func chooseCard(at index: Int) {
         numCardsFlippedThisRound += 1
@@ -57,11 +73,10 @@ class UnderdogGame {
             }
         }
         // if all cards flipped, evaluate stage of game
-        let numEligibleCards = stage == 1 ? NUM_CARDS_PER_TEAM_FIRST_STAGE * teams.count : NUM_CARDS_UNDERDOG_STAGE
-        if numCardsFlippedThisRound == numEligibleCards {
+        if numCardsFlippedThisRound == numEligibleCardsThisRound {
             evaluateGameStage()
         // in stage 2, if only one card left unflipped, underdog's turn (alternate turn indicator)
-        } else if stage == 2, (numEligibleCards - numCardsFlippedThisRound) == 1 {
+        } else if stage == 2, (numEligibleCardsThisRound - numCardsFlippedThisRound) == 1 {
             alternateTurnIndicator()
         }
     }
@@ -83,25 +98,36 @@ class UnderdogGame {
     }
     
     func evaluateGameStage() {
+        // if end of first stage
         if stage == 1 {
             // if either team shutout in first stage, other team wins
             if teams[0].firstStageScore == 0 || teams[1].firstStageScore == 0 {
                 gameWinner = roundWinners.first
-                // TO DO: Winning page
-                print("game over")
-                print("\(gameWinner?.name ?? "ERROR") wins!")
             // else, game moves on to stage 2
             } else {
                 stage = 2
                 numCardsFlippedThisRound = 0
                 // turn indicator to first stage winner
-                turnIndicator = teams[0].firstStageScore > teams[1].firstStageScore ? teams[0] : teams[1]
+                firstStageWinner = teams[0].firstStageScore > teams[1].firstStageScore ? teams[0] : teams[1]
+                turnIndicator = firstStageWinner
                 createUnderdogStage()
             }
+        // if end of Underdog stage
+        } else {
+            // find card in underdog stage with max value
+            var underdogStageMaxValueCard = cardsCurrentlyInPlay[0]
+            for underdogStageCardCurrentlyInPlay in cardsCurrentlyInPlay {
+                if underdogStageCardCurrentlyInPlay.value > underdogStageMaxValueCard.value {
+                    underdogStageMaxValueCard = underdogStageCardCurrentlyInPlay
+                }
+            }
+            // team with max value card wins game
+            gameWinner = underdogStageMaxValueCard.team
         }
     }
     
     func createUnderdogStage() {
+        cardsCurrentlyInPlay = []
         var underdogStageCardIndex = NUM_CARDS_PER_TEAM_FIRST_STAGE * 2
         for roundWinnerTeam in roundWinners {
             cards[underdogStageCardIndex].team = roundWinnerTeam
