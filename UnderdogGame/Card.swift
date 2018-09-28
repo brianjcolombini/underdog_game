@@ -11,21 +11,21 @@ import Foundation
 struct Card {
     
     var id : Int
-    var stage : Int
+    private(set) var stage : Int
     var team : Team?
-    var value = 0
+    private(set) var value = 0
     var isFlipped = false
     
-    static let MAX_VALUE = 100
-    static var idIncrementer = 0
-    static var usedValues : Set<Int> = []
+    private static let MAX_VALUE = 100
+    private static var idIncrementer = 0
+    private static var usedValues : Set<Int> = []
     
-    static func getId() -> Int {
+    private static func getId() -> Int {
         idIncrementer += 1
         return idIncrementer
     }
     
-    static func getUniqueValue() -> Int {
+    private static func getUniqueValue() -> Int {
         var newValue : Int
         repeat {
             newValue = MAX_VALUE.arc4random

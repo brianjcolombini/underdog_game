@@ -10,16 +10,16 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    var game = UnderdogGame()
+    private var game = UnderdogGame()
     
-    @IBOutlet weak var turnIndicatorView: UIView!
+    @IBOutlet private weak var turnIndicatorView: UIView!
     
-    @IBOutlet weak var leftTeamScoreLabel: UILabel!
-    @IBOutlet weak var rightTeamScoreLabel: UILabel!
+    @IBOutlet private weak var leftTeamScoreLabel: UILabel!
+    @IBOutlet private weak var rightTeamScoreLabel: UILabel!
     
-    @IBOutlet var cardButtons: [UIButton]!
+    @IBOutlet private var cardButtons: [UIButton]!
     
-    @IBAction func touchCard(_ sender: UIButton) {
+    @IBAction private func touchCard(_ sender: UIButton) {
         if let cardId = cardButtons.index(of: sender) {
             game.chooseCard(at: cardId)
             updateViewFromModel()
@@ -28,7 +28,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func updateViewFromModel() {
+    private func updateViewFromModel() {
         if game.turnIndicator != nil {
             turnIndicatorView.backgroundColor = UIColor(cgColor: game.turnIndicator!.color)
         }
