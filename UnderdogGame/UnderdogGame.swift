@@ -48,7 +48,7 @@ class UnderdogGame {
     
     // when card is chosen, and card matches turn indicator and is not yet flipped
     func chooseCard(at index: Int) {
-        if turnIndicator!.name == cards[index].team!.name { // TO DO: use overloaded op
+        if turnIndicator! == cards[index].team! {
             if !cards[index].isFlipped {
                 // update model accordingly
                 cards[index].isFlipped = true
@@ -83,7 +83,7 @@ class UnderdogGame {
     }
     
     private func alternateTurnIndicator() {
-        turnIndicator = turnIndicator!.name == teams[1].name ? teams[0] : teams[1]
+        turnIndicator = turnIndicator! == teams[1] ? teams[0] : teams[1]
     }
     
     // evaluate round in stage 1

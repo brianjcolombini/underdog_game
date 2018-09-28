@@ -9,8 +9,12 @@
 import Foundation
 import UIKit
 
-class Team {
+class Team : Equatable {
     
+    static func == (lhs: Team, rhs: Team) -> Bool {
+        return lhs.name == rhs.name
+    }
+
     var name : String
     var color : CGColor
     var firstStageScore = 0
