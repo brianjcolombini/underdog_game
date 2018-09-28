@@ -14,8 +14,26 @@ class ViewController: UIViewController {
     
     @IBOutlet private weak var turnIndicatorView: UIView!
     
-    @IBOutlet private weak var leftTeamScoreLabel: UILabel!
-    @IBOutlet private weak var rightTeamScoreLabel: UILabel!
+    @IBOutlet private weak var leftTeamScoreLabel: UILabel! {
+        didSet {
+            updateFirstStageScoreLabel(team: game.teams[0], label: leftTeamScoreLabel)
+        }
+    }
+    @IBOutlet private weak var rightTeamScoreLabel: UILabel! {
+        didSet {
+            updateFirstStageScoreLabel(team: game.teams[1], label: rightTeamScoreLabel)
+        }
+    }
+    
+    // update first stage score label with attributed string
+    private func updateFirstStageScoreLabel(team : Team, label: UILabel) {
+        let scoreLabelAttributes: [NSAttributedStringKey:Any] = [
+            .strokeWidth : 5.0,
+            .strokeColor : UIColor(cgColor: team.color)
+        ]
+        let scoreLabelAttributedString = NSAttributedString(string: "\(team.firstStageScore)", attributes: scoreLabelAttributes)
+        label.attributedText = scoreLabelAttributedString
+    }
     
     @IBOutlet private var cardButtons: [UIButton]!
     
@@ -36,8 +54,8 @@ class ViewController: UIViewController {
         }
         
         // update first stage score labels
-        leftTeamScoreLabel.text = String(game.teams[0].firstStageScore)
-        rightTeamScoreLabel.text = String(game.teams[1].firstStageScore)
+        updateFirstStageScoreLabel(team : game.teams[0], label: leftTeamScoreLabel)
+        updateFirstStageScoreLabel(team: game.teams[1], label: rightTeamScoreLabel)
         
         // for each card button, show as flipped or not flipped accordingly
         for index in cardButtons.indices {
@@ -60,10 +78,8 @@ class ViewController: UIViewController {
         }
     }
     
-    // when view first loads, set first stage score label color and initialize UI with updateViewFromModel() (original model)
+    // when view first loads, initialize UI with updateViewFromModel() (original model)
     override func viewDidLoad() {
-        leftTeamScoreLabel.textColor = UIColor(cgColor: game.teams[0].color)
-        rightTeamScoreLabel.textColor = UIColor(cgColor: game.teams[1].color)
         updateViewFromModel()
     }
     
