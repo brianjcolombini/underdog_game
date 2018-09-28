@@ -19,6 +19,7 @@ class ViewController: UIViewController {
     
     @IBOutlet private var cardButtons: [UIButton]!
     
+    // if card button touched, call chooseCard in model with given index, and then update view
     @IBAction private func touchCard(_ sender: UIButton) {
         if let cardId = cardButtons.index(of: sender) {
             game.chooseCard(at: cardId)
@@ -29,13 +30,16 @@ class ViewController: UIViewController {
     }
     
     private func updateViewFromModel() {
+        // update color of turn indicator with appropriate team's color
         if game.turnIndicator != nil {
             turnIndicatorView.backgroundColor = UIColor(cgColor: game.turnIndicator!.color)
         }
         
+        // update first stage score labels
         leftTeamScoreLabel.text = String(game.teams[0].firstStageScore)
         rightTeamScoreLabel.text = String(game.teams[1].firstStageScore)
         
+        // for each card button, show as flipped or not flipped accordingly
         for index in cardButtons.indices {
             let button = cardButtons[index]
             let card = game.cards[index]
@@ -56,6 +60,7 @@ class ViewController: UIViewController {
         }
     }
     
+    // when view first loads, set first stage score label color and initialize UI with updateViewFromModel() (original model)
     override func viewDidLoad() {
         leftTeamScoreLabel.textColor = UIColor(cgColor: game.teams[0].color)
         rightTeamScoreLabel.textColor = UIColor(cgColor: game.teams[1].color)

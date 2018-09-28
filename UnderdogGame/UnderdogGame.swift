@@ -18,7 +18,7 @@ class UnderdogGame {
     private(set) var teams : Array<Team> = []
     private(set) var cards : Array<Card> = []
     private(set) var stage = 1
-    private var numEligibleCardsThisStage: Int {
+    private var numEligibleCardsThisStage: Int { // num cards visible on screen
         get {
             if stage == 1 {
                 return NUM_CARDS_PER_TEAM_FIRST_STAGE * teams.count
@@ -28,7 +28,7 @@ class UnderdogGame {
         }
     }
     private var numCardsFlippedThisStage = 0
-    private var cardsCurrentlyInPlay : Array<Card> = []
+    private var cardsCurrentlyInPlay : Array<Card> = [] // num cards active in current round
     private(set) var roundWinners : Array<Team> = [] {
         didSet {
             let thisRoundWinner = roundWinners.last
@@ -46,13 +46,15 @@ class UnderdogGame {
         }
     }
     
+    // when card is chosen, and card matches turn indicator and is not yet flipped
     func chooseCard(at index: Int) {
         if turnIndicator!.name == cards[index].team!.name { // TO DO: use overloaded op
-            numCardsFlippedThisStage += 1
             if !cards[index].isFlipped {
+                // update model accordingly
                 cards[index].isFlipped = true
+                numCardsFlippedThisStage += 1
                 cardsCurrentlyInPlay += [cards[index]]
-                // in first stage of game
+                // if first stage of game
                 if stage == 1 {
                     // if first card in round
                     if cardsCurrentlyInPlay.count == 1 {
@@ -84,9 +86,12 @@ class UnderdogGame {
         turnIndicator = turnIndicator!.name == teams[1].name ? teams[0] : teams[1]
     }
     
+    // evaluate round in stage 1
     private func evaluateFirstStageRound() {
+        // cardsCurrentlyInPlay must be 2 and 2 cards cannot have same value
         assert(cardsCurrentlyInPlay.count == 2, "count of cardsCurrentlyInPlay is \(cardsCurrentlyInPlay.count), expected 2")
         assert(cardsCurrentlyInPlay[0].value != cardsCurrentlyInPlay[1].value, "multiple cards have same value")
+        // determine winner of round (card with greater value), append to roundWinners
         if cardsCurrentlyInPlay[0].value > cardsCurrentlyInPlay[1].value {
             roundWinners += [cardsCurrentlyInPlay[0].team!]
         } else {
@@ -94,6 +99,7 @@ class UnderdogGame {
         }
     }
     
+    // evaluate stage of game
     private func evaluateGameStage() {
         // if end of first stage
         if stage == 1 {
@@ -123,9 +129,13 @@ class UnderdogGame {
         }
     }
     
+    // create underdog stage of game (stage 2)
     private func createUnderdogStage() {
+        // reset cardsCurrentlyInPlay
         cardsCurrentlyInPlay = []
+        // start with first of unspecified cards that were hidden to this point
         var underdogStageCardIndex = NUM_CARDS_PER_TEAM_FIRST_STAGE * 2
+        // for each first stage round winner, assign team to underdog stage card
         for roundWinnerTeam in roundWinners {
             cards[underdogStageCardIndex].team = roundWinnerTeam
             underdogStageCardIndex += 1
@@ -146,11 +156,11 @@ class UnderdogGame {
             }
         }
         for _ in 0..<NUM_CARDS_UNDERDOG_STAGE {
-            // create teamless card for underdog stage
+            // create hidden teamless card for underdog stage
             let teamlessUnderdogStageCard = Card(team: nil, stage: 2)
             cards += [teamlessUnderdogStageCard]
         }
-        // set team to have first turn
+        // set random team to have first turn
         let randomTeamIndex = teams.count.arc4random
         turnIndicator = teams[randomTeamIndex]
     }
